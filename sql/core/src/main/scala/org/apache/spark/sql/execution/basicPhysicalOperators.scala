@@ -116,9 +116,8 @@ case class FilterExec(condition: Expression, child: SparkPlan)
     }
   }
 
-  override lazy val metrics = {Map(
+  override lazy val metrics = Map(
     "numOutputRows" -> SQLMetrics.createMetric(sparkContext, "number of output rows"))
-  }
 
   override def inputRDDs(): Seq[RDD[InternalRow]] = {
     child.asInstanceOf[CodegenSupport].inputRDDs()
