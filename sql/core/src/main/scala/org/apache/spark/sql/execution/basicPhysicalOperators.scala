@@ -30,7 +30,6 @@ import org.apache.spark.sql.catalyst.expressions.BindReferences.bindReferences
 import org.apache.spark.sql.catalyst.expressions.codegen._
 import org.apache.spark.sql.catalyst.plans.physical._
 import org.apache.spark.sql.execution.metric.SQLMetrics
-import org.apache.spark.sql.internal.SQLConf
 import org.apache.spark.sql.types.{LongType, StructType}
 import org.apache.spark.util.ThreadUtils
 import org.apache.spark.util.random.{BernoulliCellSampler, PoissonSampler}
@@ -117,9 +116,8 @@ case class FilterExec(condition: Expression, child: SparkPlan)
     }
   }
 
-  override lazy val metrics = {
-    Map("numOutputRows" ->
-        SQLMetrics.createMetric(sparkContext, "number of output rows", this.rowCountStats.toLong))
+  override lazy val metrics = {Map("numOutputRows" ->
+    SQLMetrics.createMetric(sparkContext, "number of output rows"))
   }
 
   override def inputRDDs(): Seq[RDD[InternalRow]] = {
